@@ -1,22 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const Bus = require("../models/Bus");
+const { getAvailableBuses, bookSeat } = require("../controllers/busController");
 
-router.get("/:city/:subStop/:date", async (req, res) => {
-  const { city, subStop, date } = req.params;
-  const buses = await Bus.find({ city, subStop, date });
-  res.json(buses);
-});
+// Get available buses
+router.get("/available/:city/:subStop/:date", getAvailableBuses);
 
-router.post("/book", async (req, res) => {
-  const { busId, seatNumber } = req.body;
-  const bus = await Bus.findById(busId);
-  if (bus.bookedSeats.includes(seatNumber)) {
-    return res.status(400).json({ message: "Seat already booked" });
-  }
-  bus.bookedSeats.push(seatNumber);
-  await bus.save();
-  res.json({ message: "Seat booked" });
-});
+// Book a seat
+router.post("/book", bookSeat);
 
 module.exports = router;

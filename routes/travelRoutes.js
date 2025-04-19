@@ -15,7 +15,7 @@ router.post("/travel-details", async (req, res) => {
 
   try {
     const detail = new TravelDetail({
-      userId: new Types.ObjectId(userId), // ✅ use the new keyword correctly here
+      userId: new Types.ObjectId(userId),  // ✅ use the new keyword correctly here
       city,
       date,
       direction,
